@@ -9,9 +9,9 @@ class Person:
         a = vars(self)  # Return dictionary: key=attr name, value = attr value
         print(a)
         # vars(self) format look likes this
-        # svars = ["{} {}".format(k, v) for k, v in a.items()]
+        # svars = ["{} {}".format(key, value) for key, value in a.items()]
         attrs = ("fname", "lname", "age")
-        sattrs = ["{:10}: {}".format(a,getattr(self, a)) for a in attrs]  # getattr() return attribute value
+        sattrs = ["{:10}: {}".format(a, getattr(self, a)) for a in attrs]  # getattr() return attribute value. note that 'a' is key
         return "\n".join(sattrs)
 
 

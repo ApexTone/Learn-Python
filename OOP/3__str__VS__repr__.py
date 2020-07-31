@@ -19,7 +19,7 @@ if __name__ == '__main__':
     th = Medal("Thailand",5,6,7)
     # __str__
     print(th)
-    # random printing
+    # custom printing
     print(th.country, "G", th.gold, "S", th.silver, "B", th.bronze, "Total", th.total())
 
     medals = [
@@ -27,5 +27,5 @@ if __name__ == '__main__':
         Medal("China", 5, 2, 1),
         Medal("Vietnam", 5, 6, 1)
     ]
-    for country in medals:
-        print(country)
+    for country_medal in medals:  # looping with forEach
+        print(country_medal)

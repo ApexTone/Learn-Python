@@ -10,11 +10,11 @@ class Student:
 
     # Note the usage of dunder here to prevent easy random access
     # Getter/Setter: Have same name
-    @property
+    @property  # getter
     def blood(self):
         return self.__blood  # The real attr
 
-    @blood.setter
+    @blood.setter  # setter: @attr_name.setter
     def blood(self, blood):
         if blood.upper() in ["A", "B", "O", "AB"]:
             self.__blood = blood.upper()
@@ -41,7 +41,7 @@ class Student:
 if __name__ == '__main__':
     s = Student("asdf", "ghj", "A")
     print(s)
-    s.blood = "B"  # Calling setter
-    print(s.blood)  # Calling getter
+    s.blood = "B"  # Automatically calling setter
+    print(s.blood)  # Automatically calling getter
     print(s.__dict__)
 

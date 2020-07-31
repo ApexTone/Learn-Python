@@ -11,13 +11,13 @@ class Student:
     def full_name2(self):
         return "{} {}".format(self.fname, self.lname)
 
-    # KMITL id: 62:joined_year/ 01:joined_semester/ 0356:running_number
+    # KMITL id: 62:joined_year/ 01:faculty/ 0356:running_number
     @property
     def joined_year(self):
         return self.id[:2] # from [0,2)
 
     @property
-    def joined_semester(self):
+    def joined_faculty(self):
         return self.id[2:4]
 
     @property
@@ -32,8 +32,10 @@ class Student:
 if __name__ == '__main__':
     s = Student("62010356", "Tanapol", "Wong-asa")
     print(s.full_name())
-    print(s.full_name2)  # Calling like field
+
+    # Calling like a data field
+    print(s.full_name2)
     print(s.joined_year)
-    print(s.joined_semester)
+    print(s.joined_faculty)
     print(s.sequence)
     print(s.email)
