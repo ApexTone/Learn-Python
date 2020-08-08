@@ -1,5 +1,5 @@
 """
-Dynamic Array API (similar to C Vector, Java ArrayList, Python List)
+Dynamic Array API (C Vector, Java ArrayList, Python List)
 
 value get(i)
 set(i, val)
@@ -22,29 +22,45 @@ class DynamicArray:
             print("Capacity can't be lower or equal to 0")
             self.__capacity = 2
 
-    def get(self, i):
+    def get(self, i): # O(1)
         if i < 0 or i >= self.__size:
             print('Index out of range')
             return
         return self.__arr[i]
 
-    def set(self, i, val):
+    def set(self, i, val):  # O(1)
         if i < 0 or i >= self.__size:
             print('Index out of range')
             return
         self.__arr[i] = val
 
-    def push_back(self, value):
+    def push_back(self, value):  # O(n)
+        """
+        Amortized analysis
+        Aggregate Method: like average of each operation (brute-force sum)
+            Cost(n operation)/n => O(n)/n => O(1)
+        Banker's Method: charge 'extra' for cheap operations and use that to 'pay' for expensive operations (tokens)
+            Charge 3 for each insertion, 1 coin is the raw cost for insertion
+            Resize: pay for moving elements by coins
+            Place a coin to newly-inserted element and another coin at capacity/2 element
+        Physicist's Method: define a potential function that map states of DS to integers (potential function)
+            f(H0) = 0, f(Ht) >= 0
+            amortized cost for operation t = Ct + f(H0) - f(Ht-1)
+            sum of amortized costs (n)= Sum(c1,cn) - f(H0) + f(Hn) = Sum(c1,cn) + f(Hn)
+            n calls to push_back -> f(x) = 2 * size - capacity -> f(H0) = 0, f(Hi) > 0 is true
+            without resizing: 1 + (2*sizei - capi) - (2*sizei-1 - capi-1) = 1+ 2*(sizei - sizei-1)
+            with resizing: sizei + 2 - k = k+1+2-k = 3 (when k=sizei-1=capi-1)
+        """
         if self.__size == self.__capacity:
-            new_array = [0] * self.__capacity * 2
-            for item in range(1, self.__size):
-                new_array[item] = self.__arr[item]
+            new_array = [0] * self.__capacity * 2  # double the size since it uses the shortest time and it's efficient
+            for v in range(1, self.__size):
+                new_array[v] = self.__arr[v]
             self.__arr = new_array
             self.__capacity *= 2
         self.__arr[self.__size] = value
         self.__size += 1
 
-    def remove(self, i):  # bug
+    def remove(self, i):  # O(n)
         if self.__size <= 0:
             print('Dynamic Array is empty')
             return
@@ -66,8 +82,8 @@ if __name__ == '__main__':
     da = DynamicArray(1)
     print(da.size())
     lst = [-1, 0, 1, 2, 3]
-    for i in lst:
-        da.push_back(i)
+    for item in lst:
+        da.push_back(item)
     print(da.size())
     print(da.get(4))
 
