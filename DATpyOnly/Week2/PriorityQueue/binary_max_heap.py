@@ -1,0 +1,61 @@
+class BinaryMaxHeap:  # complete binary tree with parent node's value >= child nodes' value
+    def __init__(self, max_size=64):
+        self.max_size = max_size  # maximum heap size possible
+        self.size = 0  # current heap size
+        self.heap = [float('-inf')] * self.max_size  # heap representation in array
+
+    # index of ... of node at index i [index start from 1]
+    def parent(self, i):
+        return i//2
+
+    def left_child(self, i):
+        return 2*i
+
+    def right_child(self, i):
+        return 2*i+1
+
+    def sift_up(self, i):
+        while i > 1 and self.heap[self.parent(i)] < self.heap[i]:
+            self.heap[self.parent(i)], self.heap[i] = self.heap[i], self.heap[self.parent(i)]
+            i = self.parent(i)
+
+    def sift_down(self, index):
+        max_index = index
+        left = self.left_child(index)
+        if left <= self.size and self.heap[left] > self.heap[max_index]:
+            max_index = left
+        right = self.right_child(index)
+        if right <= self.size and self.heap[right] > self.heap[max_index]:
+            max_index = right
+        if index != max_index:
+            self.heap[index], self.heap[max_index] = self.heap[max_index], self.heap[index]
+            self.sift_down(max_index)
+
+    def insert(self, priority):
+        if self.size == self.max_size:
+            print("heap is full")
+            return  # error
+        self.size += 1
+        self.heap[self.size] = priority
+        self.sift_up(self.size)
+        # print("inserted:", self.h)
+
+    def extract_max(self):
+        result = self.heap[1]
+        self.heap[1] = self.heap[self.size]
+        self.size -= 1
+        self.sift_down(1)
+        return result
+
+    def remove(self, i):
+        self.heap[i] = float('inf')
+        self.sift_up(i)
+        self.extract_max()
+
+    def change_priority(self, i, priority):
+        old_priority = self.heap[i]
+        self.heap[i] = priority
+        if priority > old_priority:
+            self.sift_up(i)
+        else:
+            self.sift_down(i)
