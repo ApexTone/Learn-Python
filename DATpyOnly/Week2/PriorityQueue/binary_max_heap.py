@@ -1,3 +1,7 @@
+# for 0-based array see Week3 Heap sort, Final remark
+# can also be modified to make it BinaryMinHeap
+# for d-ary Heap (each node on every level except last one has d children) will run faster for some action O(logd n)
+
 class BinaryMaxHeap:  # complete binary tree with parent node's value >= child nodes' value
     def __init__(self, max_size=64):
         self.max_size = max_size  # maximum heap size possible
@@ -64,16 +68,28 @@ class BinaryMaxHeap:  # complete binary tree with parent node's value >= child n
             self.sift_down(i)
 
     def build_heap(self, array):
-        self.max_size = len(array)
-        self.size = len(array)
-        self.heap = [None]+array
-        for i in range(self.size//2, 0, -1):
-            self.sift_down(i)
+        # comment input out for stress testing
+        choice = input("This action will replace your old heap, would you like to continue? Y/n : ")
+        if choice == 'Y':
+            self.max_size = len(array)
+            self.size = len(array)
+            self.heap = [None]+array
+            for i in range(self.size//2, 0, -1):
+                self.sift_down(i)
+        else:
+            return
 
-    def heap_sort(self, array):  # sort in ascending order
+    def heap_sort(self, array):  # sort in ascending order -> this one use less mem than the stand-alone function one
         self.build_heap(array)
         for _ in range(len(array)-1):
             self.heap[1], self.heap[self.size] = self.heap[self.size], self.heap[1]
             self.size -= 1
             self.sift_down(1)
         return self.heap[1:]
+
+    def partial_sort(self, array, k):  # output first k elements in descending order
+        self.build_heap(array)
+        lst = list()
+        for i in range(1, k+1):
+            lst.append(self.extract_max())
+        return lst

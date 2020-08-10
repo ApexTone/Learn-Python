@@ -2,12 +2,12 @@ import random
 from Week2.PriorityQueue.binary_max_heap import BinaryMaxHeap
 
 
-def heap_sort(to_sort):  # this one sort in descending order
+def heap_sort(to_sort):  # this one sort in ascending order
     heap = BinaryMaxHeap(len(to_sort)+1)
     for item in to_sort:
         heap.insert(item)
     # print('Heap:', heap.heap)
-    for i in range(len(to_sort)):
+    for i in range(len(to_sort)-1, -1, -1):
         to_sort[i] = heap.extract_max()
     return to_sort
 
@@ -25,7 +25,7 @@ def stress_test():
         h2.reverse()
         print('Normal:', h1)
         print('With built-in:', h2)
-        if h1 != h2:
+        if h1 != h2 != lst.sort():
             break
         else:
             print('OK')
@@ -33,3 +33,5 @@ def stress_test():
 
 if __name__ == '__main__':
     stress_test()
+    bh = BinaryMaxHeap()
+    print(bh.partial_sort([-9, 0, 5, 122, 30, -87, 65, 2, 1], 5))
