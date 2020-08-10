@@ -20,11 +20,14 @@ class BinaryMaxHeap:  # complete binary tree with parent node's value >= child n
             i = self.parent(i)
 
     def sift_down(self, index):
+        # print("Current heap:", self.heap)
         max_index = index
         left = self.left_child(index)
+        # print("Max:", max_index, "Left:", left)
         if left <= self.size and self.heap[left] > self.heap[max_index]:
             max_index = left
         right = self.right_child(index)
+        # print("Max:", max_index, "Right:", right)
         if right <= self.size and self.heap[right] > self.heap[max_index]:
             max_index = right
         if index != max_index:
@@ -59,3 +62,18 @@ class BinaryMaxHeap:  # complete binary tree with parent node's value >= child n
             self.sift_up(i)
         else:
             self.sift_down(i)
+
+    def build_heap(self, array):
+        self.max_size = len(array)
+        self.size = len(array)
+        self.heap = [None]+array
+        for i in range(self.size//2, 0, -1):
+            self.sift_down(i)
+
+    def heap_sort(self, array):  # sort in ascending order
+        self.build_heap(array)
+        for _ in range(len(array)-1):
+            self.heap[1], self.heap[self.size] = self.heap[self.size], self.heap[1]
+            self.size -= 1
+            self.sift_down(1)
+        return self.heap[1:]
